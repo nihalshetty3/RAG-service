@@ -20,6 +20,19 @@ function DocumentViewer({ document, onClose }) {
         {document.path}
       </p>
 
+      {document.url && (
+        <p>
+          <strong>GitHub:</strong>{" "}
+          <a
+            href={document.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open Document
+          </a>
+        </p>
+      )}
+
       <hr />
 
       <p>{document.content}</p>

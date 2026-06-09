@@ -81,6 +81,7 @@ function ChatArea({ setSelectedDoc }) {
                       title: source.doc_id,
                       source: source.doc_id,
                       path: source.doc_path,
+                      url: source.url,
                       content: source.doc_path,
                     })
                   }
