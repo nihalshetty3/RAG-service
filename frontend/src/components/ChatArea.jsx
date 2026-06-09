@@ -34,13 +34,13 @@ function ChatArea({ setSelectedDoc }) {
         ...prev,
         {
           role: "assistant",
-          content: data.results.length
-            ? `Found ${data.results.length} relevant chunk(s).`
-            : "No documents found for your query.",
-          sources: data.results ?? [],
+          content: data.answer || "No answer returned.",
+          sources: data.sources || [],
         },
       ]);
     } catch (err) {
+      console.error("Search failed:", err);
+
       setMessages((prev) => [
         ...prev,
         {
@@ -49,14 +49,15 @@ function ChatArea({ setSelectedDoc }) {
           sources: [],
         },
       ]);
-      console.error("Search failed:", err);
     } finally {
       setLoading(false);
     }
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") sendMessage();
+    if (e.key === "Enter") {
+      sendMessage();
+    }
   };
 
   return (
@@ -71,16 +72,16 @@ function ChatArea({ setSelectedDoc }) {
                 <SearchResultCard
                   key={i}
                   data={{
-                    title: `Document ${source.doc_id}`,
-                    source: `Similarity: ${(source.similarity * 100).toFixed(1)}%`,
-                    similarity: source.similarity,
+                    title: source.doc_id,
+                    source: source.doc_path,
+                    similarity: 1,
                   }}
                   onClick={() =>
                     setSelectedDoc({
-                      title: `Document ${source.doc_id}`,
-                      source: `doc_id: ${source.doc_id}`,
-                      path: `doc_id: ${source.doc_id}`,
-                      content: source.chunk_text,
+                      title: source.doc_id,
+                      source: source.doc_id,
+                      path: source.doc_path,
+                      content: source.doc_path,
                     })
                   }
                 />
