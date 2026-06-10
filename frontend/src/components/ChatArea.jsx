@@ -26,12 +26,22 @@ function ChatArea({ setSelectedDoc }) {
         role: "user",
         content: userQuery,
       },
+      {
+        role: "user",
+        content: userQuery,
+      },
     ]);
 
     setLoading(true);
 
     try {
       const data = await searchDocuments(userQuery);
+
+      const answerWithConfidence = `
+${data.answer || "No answer returned."}
+
+Confidence Score: ${data.confidence_score ?? "N/A"}%
+      `.trim();
 
       const answerWithConfidence = `
 ${data.answer || "No answer returned."}
@@ -50,6 +60,8 @@ Confidence Score: ${data.confidence_score ?? "N/A"}%
     } catch (err) {
       console.error("Search failed:", err);
 
+      console.error("Search failed:", err);
+
       setMessages((prev) => [
         ...prev,
         {
@@ -64,6 +76,9 @@ Confidence Score: ${data.confidence_score ?? "N/A"}%
   };
 
   const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
     if (e.key === "Enter") {
       sendMessage();
     }
