@@ -12,11 +12,11 @@ def call_ollama(prompt: str):
         response = requests.post(
             "http://localhost:11434/api/generate",
             json={
-                "model": "llama3",
+                "model": "mistral:latest",
                 "prompt": prompt,
                 "stream": False
             },
-            timeout=60
+            timeout=180
         )
         response.raise_for_status()
         return response.json().get("response", "")

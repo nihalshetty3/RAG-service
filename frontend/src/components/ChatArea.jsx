@@ -26,7 +26,10 @@ function ChatArea({ setSelectedDoc }) {
     if (!input.trim() || loading) return;
     const userQuery = input;
     setInput("");
+
     setMessages((prev) => [...prev, { role: "user", content: userQuery }]);
+
+
     setLoading(true);
 
     try {
@@ -57,6 +60,7 @@ Confidence Score: ${data.confidence_score ?? "N/A"}%
       ]);
     } catch (err) {
       console.error("Search failed:", err);
+      
       setMessages((prev) => [
         ...prev,
         {
